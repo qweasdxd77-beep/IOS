@@ -514,13 +514,22 @@ function MacLib:Window(Settings)
 
 	headshot.Parent = informationGroup
 
-	-- ส่วนชื่อ (DisplayName & Username)
+	--- ส่วนชื่อ (DisplayName & Username)
 		local userAndDisplayFrame = Instance.new("Frame")
 		userAndDisplayFrame.Name = "UserAndDisplayFrame"
 		userAndDisplayFrame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 		userAndDisplayFrame.BackgroundTransparency = 1
-		-- [แก้ 1] ปรับความสูงเป็น 80 (เท่ากับรูป) เพื่อให้พื้นที่มันคลุมถึงด้านล่าง
-		userAndDisplayFrame.Size = UDim2.new(1, -100, 0, 80)
+		-- ความสูง 80 เท่ากับรูป
+		userAndDisplayFrame.Size = UDim2.new(1, -100, 0, 80) 
+
+		-- [ตัวช่วยใหม่] สร้าง Padding เฉพาะสำหรับกรอบชื่อ เพื่อดันข้อความขึ้นจากพื้น
+		local textLiftPadding = Instance.new("UIPadding")
+		textLiftPadding.Name = "TextLiftPadding"
+		
+		-- [จุดสำคัญ!] แก้เลขตรงนี้เพื่อปรับระดับความสูง
+		-- เลข 10 คือดันขึ้นมาจากพื้น 10 หน่วย (ลองปรับเป็น 5, 8, 12 จนกว่าจะพอดีกับขอบรูป)
+		textLiftPadding.PaddingBottom = UDim.new(0, 10) 
+		textLiftPadding.Parent = userAndDisplayFrame
 
 		local displayName = Instance.new("TextLabel")
 		displayName.Name = "DisplayName"
@@ -536,10 +545,10 @@ function MacLib:Window(Settings)
 		displayName.Size = UDim2.fromScale(1,0)
 
 		local userAndDisplayFrameUIListLayout = Instance.new("UIListLayout")
-		userAndDisplayFrameUIListLayout.Padding = UDim.new(0, 0) -- ปรับระยะห่างระหว่างชื่อบน-ล่าง ตามชอบ
+		userAndDisplayFrameUIListLayout.Padding = UDim.new(0, 0)
 		userAndDisplayFrameUIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
 		
-		-- [แก้ 2] สั่งให้ข้อความทั้งหมดไหลไปกองที่ "ก้นหลุม" (ชิดล่าง)
+		-- ยังคงให้ชิดล่าง แต่เรามี Padding คอยดันไว้ไม่ให้จมดิน
 		userAndDisplayFrameUIListLayout.VerticalAlignment = Enum.VerticalAlignment.Bottom 
 		
 		userAndDisplayFrameUIListLayout.Parent = userAndDisplayFrame
@@ -558,10 +567,6 @@ function MacLib:Window(Settings)
 		username.Size = UDim2.fromScale(1,0)
 
 		userAndDisplayFrame.Parent = informationGroup
-
-	userAndDisplayFrame.Parent = informationGroup
-
-	informationGroup.Parent = userInfo
 
 	local userInfoUIPadding = Instance.new("UIPadding")
 	userInfoUIPadding.Name = "UserInfoUIPadding"
